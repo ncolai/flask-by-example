@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from collections import Counter
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -16,6 +17,11 @@ def hello():
 @app.route('/<name>')
 def hello_name(name):
     return "Hello {}!".format(name)
+
+@app.route('/char_count/<text>')
+def char_counts(text):
+    counts = Counter(text)
+    return ' '.join([str(i) + ':' + str(counts[i]) for i in counts])
 
 if __name__ == '__main__':
     print(os.environ['APP_SETTINGS'])
